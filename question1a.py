@@ -32,7 +32,7 @@ def gradient_descent(f, c_vector, t, a, r):
     cycles = 100
     i = 0
     while not converged:
-        
+        break
 
 
 
