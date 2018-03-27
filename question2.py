@@ -54,5 +54,5 @@ def k_nn_euclidean(k,test_data,training_data,distance_function):
     if fail_counter > pass_counter:
         return 0          
     
-#####print(k_nn_euclidean(3,test_data,training_data))
+#####print(k_nn_euclidean(3,test_data,training_data,euclidean_distance))
 ########################################################
