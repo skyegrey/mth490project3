@@ -1,5 +1,6 @@
 import sklearn
 import pandas as pd
+import math
 
 
 def model(c_vector, t, a):
@@ -22,7 +23,7 @@ def loss(c_vector, t, a, r):
     return (1/len(r))*total_loss
 
 
-def loss_derivative(c_vector, t, a, r, location, change=.01):
+def loss_derivative(c_vector, t, a, r, location, change=.0001):
     test_vector = list(c_vector)
     test_vector[location] += change
     dev_diff = loss(test_vector, t, a, r) - loss(c_vector, t, a, r)
@@ -40,38 +41,69 @@ def gradient_descent(c_vector, t, a, r):
     cycles = 0
     gamma = .0001
     i = 0
+    derivatives = []
+    for index in range(0, len(c_vector)):
+        derivatives.append(abs(loss_derivative(c_vector, t, a, r, index)))
+
+    max_derivative = max(derivatives)
+    print(f'max_derivative: {max_derivative}')
+    best_index = derivatives.index(max_derivative)
+    print(f'best_index: {best_index}')
+
+    print(f'derivatives: {derivatives}')
+
+
+
     while not converged:
         if cycles > limit:
             break
 
-        dev = loss_derivative(c_vector, t, a, r, i)
-        # print(f"loss_derivate: {dev}")
-        c_vector[i] += -gamma*dev
 
-        i = (i + 1)%len(c_vector)
+        i = derivatives.index(max(derivatives))
+        dev = loss_derivative(c_vector, t, a, r, i)
+        derivatives[i] = abs(dev)
+        # print(f"loss_derivate: {dev}")
+        # print(f"c_vector: {c_vector}")
+        c_vector[i] = c_vector[i] - (gamma*loss_derivative(c_vector, t, a, r, i))
+
         cycles = cycles + 1
 
+        #i = (i + 1) % len(c_vector)
+
+        # gamma += .000001
+
+    print(f"dev: {derivatives}")
     print(f"c_vector: {c_vector}")
-    return loss(c_vector, t, a, r)
+    print(f"avg error: {math.sqrt(loss(c_vector, t, a, r)/len(c_vector))}")
+    return (loss(c_vector, t, a, r))
 
 
 # Get the data
 data_frame = pd.read_excel("HotChocSales.xlsx", header=0)
-temps = data_frame['Temp']
-for i in range(0, len(temps)):
-    temps[i] = temps[i] + 10
-ads = data_frame['Ads']
+temps = list(data_frame['Temp'])
+ads = list(data_frame['Ads'])
 rev = data_frame['Revenue']
 
+# Normalize Data
+for i in range(0, len(temps)):
+    temps[i] = (float(temps[i]) + 10)
+    ads[i] = (float(ads[i]) + 1)
+    rev[i] = rev[i]
+
+print(f"temp, ads: {temps}, {ads}")
+
 # Start with a c_value
-weights = [1,1,1,1,1,1]
+weights = [190, -16, 170, 1, 9, -21]
 
 # Get initial loss
 # gradient_descent(weights, temps, ads, rev)
 print(f"loss: {loss(weights, temps, ads, rev)}")
-print(f"loss_test: {loss([3,1,1,1,1,1], temps, ads, rev)}")
 print(f"loss after gradient descent: {gradient_descent(weights, temps, ads, rev)}")
-print(f"model estimation of 6, 4, 1112: {model(weights, 6, 4)}")
+predicted = []
+for i in range(0, len(rev)):
+    predicted.append(model(weights, temps[i], ads[i]))
+comparison = pd.DataFrame({'predicted': predicted, 'actual': rev})
+print(comparison)
 
 
 
