@@ -79,8 +79,8 @@ for i in range(0, len(temps)):
 weights = [1, 1, 1, 1, 1, 1]
 
 # Calculate regularized gradient descent
-print(f"loss before:{regularize_loss(weights, temps, ads, rev, .01)}")
-gradient_descent_regularized(weights, temps, ads, rev, .001)
+print(f"loss before:{regularize_loss(weights, temps, ads, rev, 1)}")
+gradient_descent_regularized(weights, temps, ads, rev, .01)
 
 predicted = []
 for i in range(0, len(rev)):

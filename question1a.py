@@ -2,6 +2,7 @@ import sklearn
 import pandas as pd
 import math
 # from question1b import regularize_loss
+# import * from question1c as 1c
 
 
 def model(c_vector, t, a):
@@ -95,8 +96,8 @@ print(f"temp, ads: {temps}, {ads}")
 
 # Start with a c_value
 # Rough approximates of a previous gradient
-weights = [190, -16, 170, 1, 9, -21]
-# weights = [1, 1, 1, 1, 1, 1, 1]
+# weights = [190, -16, 170, 1, 9, -21]
+weights = [1, 1, 1, 1, 1, 1, 1]
 
 # Get initial loss
 # gradient_descent(weights, temps, ads, rev)
