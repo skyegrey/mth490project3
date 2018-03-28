@@ -1,0 +1,27 @@
+def Pearson(y_predicted, y_true):
+    
+    u_predicted = 0
+    u_true = 0
+    for i in range(0,len(y_predicted)):
+        u_predicted += y_predicted[i]
+        u_true += y_true[i]
+    u_predicted = u_predicted / len(y_predicted)
+    u_true= u_true / len(y_true)
+    
+    numerator = 0
+    denom1 = 0
+    denom2 = 0
+    for i in range(0,len(y_predicted)):
+        numerator += (y_predicted[i]-u_predicted)*(y_true[i]-u_true)
+        denom1 += (y_predicted[i]-u_predicted)**2
+        denom2 += (y_true[i]-u_true)**2
+
+    return numerator / (denom1*denom2)**.5
+
+def spearman(y_predicted,y_true):
+
+    y_predicted_rank = y_predicted.sort()
+    y_true_rank = y_true.sort()
+    
+    Pearson(y_predicted_rank,y_true_rank)
+    
