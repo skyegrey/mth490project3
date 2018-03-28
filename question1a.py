@@ -1,6 +1,7 @@
 import sklearn
 import pandas as pd
 import math
+from question1b import regularize_loss
 
 
 def model(c_vector, t, a):
@@ -23,7 +24,7 @@ def loss(c_vector, t, a, r):
     return (1/len(r))*total_loss
 
 
-def loss_derivative(c_vector, t, a, r, location, change=.0001):
+def loss_derivative(c_vector, t, a, r, location, change=.0001, reg=False):
     test_vector = list(c_vector)
     test_vector[location] += change
     dev_diff = loss(test_vector, t, a, r) - loss(c_vector, t, a, r)
@@ -105,6 +106,10 @@ for i in range(0, len(rev)):
     predicted.append(model(weights, temps[i], ads[i]))
 comparison = pd.DataFrame({'predicted': predicted, 'actual': rev})
 print(comparison)
+
+#print(f"loss after reg: {gradient_descent(weights, temps, ads, rev, True)}")
+
+
 
 
 
