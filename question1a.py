@@ -88,7 +88,9 @@ rev = data_frame['Revenue']
 
 # Normalize Data
 for i in range(0, len(temps)):
+    # Set temperature to range from 0 to 14
     temps[i] = (float(temps[i]) + 10)
+    # Set add revenue to range from 1 to 9
     ads[i] = (float(ads[i]) + 1)
     rev[i] = rev[i]
 
@@ -110,6 +112,13 @@ comparison = pd.DataFrame({'predicted': predicted, 'actual': rev})
 print(comparison)
 
 #print(f"loss after reg: {gradient_descent(weights, temps, ads, rev, True)}")
+
+
+# Data vectors with labels #
+# Temperature: temps
+# Ad Revenue: ads
+# Revenue: rev
+# weights: weights
 
 
 
