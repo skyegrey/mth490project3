@@ -23,7 +23,7 @@ training_data = sleep_data[:10]
 test_data = sleep_data[10:12]
 
     
-def k_nn_euclidean(k,test_point,training_data,distance_function):  
+def k_nn(k,test_point,training_data,distance_function):  
     
     distance_list = []
     
@@ -57,7 +57,17 @@ def k_nn_euclidean(k,test_point,training_data,distance_function):
  
 # Output of results
 # To change value of k, change the first argument of the k_nn_euclidean function
-print("Based on 3-NN, the prediction for test point 1 is:")
-print(k_nn_euclidean(3,test_data[0],training_data,euclidean_distance))
-print("\nBased on 3-NN, the prediction for test point 2 is:")
-print(k_nn_euclidean(3,test_data[1],training_data,euclidean_distance))
+print("Based on 3-NN, Euclidean, the prediction for test point 1 is:")
+print(k_nn(3,test_data[0],training_data,euclidean_distance))
+print("Based on 3-NN, Euclidean the prediction for test point 2 is:")
+print(k_nn(3,test_data[1],training_data,euclidean_distance))
+
+print("\nBased on 3-NN, Manhattan, the prediction for test point 1 is:")
+print(k_nn(3,test_data[0],training_data,manhattan_distance))
+print("Based on 3-NN, Manhattan the prediction for test point 2 is:")
+print(k_nn(3,test_data[1],training_data,manhattan_distance))
+
+print("\nBased on 3-NN, Chebyshev, the prediction for test point 1 is:")
+print(k_nn(3,test_data[0],training_data,chebyshev_distance))
+print("\nBased on 3-NN, Chebyshev, the prediction for test point 2 is:")
+print(k_nn(3,test_data[1],training_data,chebyshev_distance))
