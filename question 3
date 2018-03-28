@@ -1,22 +1,38 @@
 
+import pandas
+
+# Distance metric
 def euclidean_distance(x_data, y_data, x_cluster, y_cluster):
     squared_distance = (x_data - x_cluster)**2 + (y_data - y_cluster)**2
     return squared_distance**.5
 
-# Select two clusters at random
+# Getting the data  
+target_data_frame = pandas.read_excel('Target.xlsx')
+data_array = target_data_frame.as_matrix()
+
+# Converting the array to a list so I can use append
+data = data_array.tolist()
 
 
-data = [[-7,-5,'No'],[2,-1,'Yes'],[8,-5,'No'],[-4,-3,'Yes'],[-1,-7,'No'],[-3,10,'No'],[5,1,'No']]
 
+def k_means(data): 
 
-def k_means(data):
-
+    iterations = 0
+    
+    # Initial starting points
     cluster1 = [2,2]
-    cluster2 = [-2,-1]
+    cluster2 = [-2,0]
     new_cluster1 = ''
     new_cluster2 = ''
     
-    while new_cluster1 != cluster1 and new_cluster2 != cluster2:
+    NoChange = False
+    
+    # while loop runs until no change
+    while not NoChange:
+        
+        iterations += 1
+        
+        # Classifying each point as cluster1 or cluster2
         for i in data:
             
             x_data = i[0]
@@ -31,11 +47,13 @@ def k_means(data):
             if distance2 < distance1:
                 i.append('cluster2')
         
+        # Start an empty list to average all points classified to each cluster
         new_cluster1 = [0,0]
         new_cluster2 = [0,0]
         counter_1 = 0
         counter_2 = 0
         
+        # Averaging the points
         for i in data:
             if i[3] == 'cluster1':
                 new_cluster1[0] += i[0]
@@ -47,20 +65,35 @@ def k_means(data):
                 new_cluster2[1] += i[1]
                 counter_2 += 1
         
-        
-        new_cluster1[0] = float(cluster1[0])
-        new_cluster1[1] = float(cluster1[1])
-        new_cluster2[0] = float(cluster2[0])
-        new_cluster2[1] = float(cluster2[1])
+        new_cluster1[0] = float(new_cluster1[0])
+        new_cluster1[1] = float(new_cluster1[1])
+        new_cluster2[0] = float(new_cluster2[0])
+        new_cluster2[1] = float(new_cluster2[1])
         
         new_cluster1[0] = new_cluster1[0] / counter_1
         new_cluster1[1] = new_cluster1[1] / counter_1
         new_cluster2[0] = new_cluster2[0] / counter_2
         new_cluster2[1] = new_cluster2[1] / counter_2
         
-        if cluster1
-        
-    
-    return [new_cluster1,new_cluster2]
 
-print(k_means(data))
+        # Check if there was a change
+        if cluster1[0] - new_cluster1[0] == 0:
+            if cluster1[1] - new_cluster1[1] == 0:
+                if cluster2[0] - new_cluster2[0] == 0:
+                    if cluster2[1] - new_cluster2[1] == 0:
+                        NoChange = True
+        
+        #Reassign the new cluster
+        cluster1 = new_cluster1
+        cluster2 = new_cluster2
+    
+    
+    print("Number of iterations:")
+    print(iterations)
+    print("")
+    print("Clusters are:")
+    print(cluster1)
+    print(cluster2)
+
+
+k_means(data)
