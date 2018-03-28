@@ -93,6 +93,7 @@ for i in range(0, len(temps)):
 print(f"temp, ads: {temps}, {ads}")
 
 # Start with a c_value
+# Rough approximates of a previous gradient
 weights = [190, -16, 170, 1, 9, -21]
 
 # Get initial loss
